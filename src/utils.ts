@@ -41,8 +41,10 @@ export function parseImageSource(image: HTMLImageElement) {
     const widthExp = /width=['|"](\w+)['|"]/;
     const heightExp = /height=['|"](\w+)['|"]/;
     const width = isBase64 ?
+    // @ts-ignore: Object is possibly 'null'
         parseFloat(atob(src.split('base64,')[1].trim()).match(widthExp)[1]) : parseFloat(src.match(widthExp)[1]);
     const height = isBase64 ?
+    // @ts-ignore: Object is possibly 'null'
         parseFloat(atob(src.split('base64,')[1].trim()).match(heightExp)[1]) : parseFloat(src.match(heightExp)[1]);
     return [isNaN(width) ? 0 : width, isNaN(height) ? 0 : height];
 }
