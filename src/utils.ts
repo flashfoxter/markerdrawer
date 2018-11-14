@@ -34,3 +34,15 @@ function latLngToMapPoint(out: Vec2, lngLat: LngLat) {
 export const now = window.performance && window.performance.now
     ? performance.now.bind(performance)
     : Date.now.bind(Date);
+
+export function parseImageSource(image: HTMLImageElement) {
+    const src = image.src;
+    const isBase64 = src.indexOf('base64') !== -1;
+    const widthExp = /width=['|"](\w+)['|"]/;
+    const heightExp = /height=['|"](\w+)['|"]/;
+    const width = isBase64 ?
+        parseFloat(atob(src.split('base64,')[1].trim()).match(widthExp)[1]) : parseFloat(src.match(widthExp)[1]);
+    const height = isBase64 ?
+        parseFloat(atob(src.split('base64,')[1].trim()).match(heightExp)[1]) : parseFloat(src.match(heightExp)[1]);
+    return [isNaN(width) ? 0 : width, isNaN(height) ? 0 : height];
+}

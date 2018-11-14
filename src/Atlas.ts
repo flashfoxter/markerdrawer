@@ -1,5 +1,6 @@
 import * as pack from 'bin-pack';
 import { Vec2 } from './types';
+import { parseImageSource } from './utils';
 
 /**
  * Icon with options for atlas
@@ -60,6 +61,14 @@ export class Atlas {
         const margin = 2;
 
         const arr: any = icons.map((icon) => {
+
+            // Crutch for IE in case of SVG image
+            if (!icon.image.width || !icon.image.height) {
+                const parsedSize = parseImageSource(icon.image);
+                icon.image.width = parsedSize[0];
+                icon.image.height = parsedSize[1];
+            }
+
             const imageSize = [icon.image.width, icon.image.height];
             const size = icon.size || imageSize;
 
